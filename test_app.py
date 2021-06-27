@@ -1,4 +1,3 @@
-import json
 import pytest
 from app import app
 
@@ -24,7 +23,7 @@ def test_healthycheck(client):
     rv = client.get('/status')
     assert True
     assert rv.status_code == 200
-    assert b'result' in rv.data
+    assert list(data.keys())[0] == rv.data.decode("utf-8")[0:6]
 
 
 def test_metrics(client):
@@ -39,6 +38,6 @@ def test_metrics(client):
     rv = client.get('/metrics')
     assert True
     assert rv.status_code == 200
-    assert b'status' in rv.data
-    assert b'code' in rv.data
-    assert b'data' in rv.data
+    assert list(data.keys())[0] == rv.data.decode("utf-8")[0:6]
+    assert list(data.keys())[1] == rv.data.decode("utf-8")[6:10]
+    assert list(data.keys())[2] == rv.data.decode("utf-8")[10:]
